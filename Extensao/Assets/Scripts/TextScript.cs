@@ -5,32 +5,58 @@ using TMPro;
 public class TextScript : MonoBehaviour{
 
   public TMP_Text question_text;
-  public Button button1;
-  public Button button2;
-  public Button button3;
-  public Button button4;
+  public Button[] buttons;
+  public Player player;
+  public int max_value;
+  public int min_value;
+
+  private int greater;
+  private int minor;
+  private int op;
+  private int corret_answer;
 
   void Start(){
-    changeText();
-    button1.onClick.AddListener(changeText);
-    button2.onClick.AddListener(changeText);
-    button3.onClick.AddListener(changeText);
-    button4.onClick.AddListener(changeText);
+    changeQuestion();
+  }
+  void changeQuestion(){
+    randomNumbers();
+    switch (op){
+      case 0: 
+        question_text.text = greater + " + " + minor + " = ?";
+        corret_answer = greater + minor;
+        break;
+      case 1: 
+        question_text.text = greater + " - " + minor + " = ?";
+        corret_answer = greater - minor;
+        break;
+    }
+    changeButtons();
   }
 
-  void Update() {
-  }
-
-  void changeText(){
+  void randomNumbers(){
     int n1 = Random.Range(0, 20);
     int n2 = Random.Range(0, 20);
-    int op = Random.Range(0, 2);
-    if(op == 0) question_text.text = n1 + " + " + n2 + " = ?"; 
-    else question_text.text = n1 + " - " + n2 + " = ?";
-    SetButtonText(button1, "Option 1");
-    SetButtonText(button2, "Option 2");
-    SetButtonText(button3, "Option 3");
-    SetButtonText(button4, "Option 4");
+    greater = n1 > n2 ? n1 : n2;
+    minor = n1 < n2 ? n1 : n2;
+    op = Random.Range(0, 2);
+  }
+
+  void changeButtons() {
+    int correct_bt = Random.Range(0, buttons.Length);
+    for(int i = 0; i < buttons.Length; i++){
+      if (i == correct_bt){
+        SetButtonText(buttons[i], corret_answer.ToString());
+        buttons[i].onClick.AddListener(() => { player.moveUp(); changeQuestion();});
+      } else {
+        int temp;
+        do{
+          temp = Random.Range(0, 20) + Random.Range(0, 20);
+        } while (temp == corret_answer);
+        SetButtonText(buttons[i], temp.ToString());
+        buttons[i].onClick.RemoveListener(() => { player.moveUp(); changeQuestion(); });
+        buttons[i].onClick.AddListener(() => { player.moveDown(); changeQuestion();});
+      }
+    }
   }
 
   void SetButtonText(Button button, string text){

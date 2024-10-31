@@ -1141,10 +1141,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   question_text: {fileID: 450636945}
-  button1: {fileID: 2090038272}
-  button2: {fileID: 529585994}
-  button3: {fileID: 1544223597}
-  button4: {fileID: 951404093}
+  buttons:
+  - {fileID: 2090038272}
+  - {fileID: 529585994}
+  - {fileID: 1544223597}
+  - {fileID: 951404093}
+  player: {fileID: 740402854}
+  max_value: 20
+  min_value: 0
 --- !u!4 &942059932
 Transform:
   m_ObjectHideFlags: 0
