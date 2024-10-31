@@ -46,6 +46,7 @@ public class TextScript : MonoBehaviour{
     for(int i = 0; i < buttons.Length; i++){
       if (i == correct_bt){
         SetButtonText(buttons[i], corret_answer.ToString());
+        buttons[i].onClick.RemoveAllListeners();
         buttons[i].onClick.AddListener(() => { player.moveUp(); changeQuestion();});
       } else {
         int temp;
@@ -53,7 +54,7 @@ public class TextScript : MonoBehaviour{
           temp = Random.Range(0, 20) + Random.Range(0, 20);
         } while (temp == corret_answer);
         SetButtonText(buttons[i], temp.ToString());
-        buttons[i].onClick.RemoveListener(() => { player.moveUp(); changeQuestion(); });
+        buttons[i].onClick.RemoveAllListeners();
         buttons[i].onClick.AddListener(() => { player.moveDown(); changeQuestion();});
       }
     }

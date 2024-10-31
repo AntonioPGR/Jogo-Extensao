@@ -12,12 +12,16 @@ public class Player : MonoBehaviour{
 
   public void moveDown() {
     float new_y = transform.position.y - speed;
-    transform.position = new Vector2(transform.position.x, new_y);
+    if(new_y >= max_height - (lifes * speed)){
+      transform.position = new Vector2(transform.position.x, new_y);
+    }
   }
 
   public void moveUp() {
     float new_y = transform.position.y + speed;
-    transform.position = new Vector2(transform.position.x, new_y);
+    if(new_y <= max_height){
+      transform.position = new Vector2(transform.position.x, new_y);
+    }
   }
 
 }
