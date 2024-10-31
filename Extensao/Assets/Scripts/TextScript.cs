@@ -2,6 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum MoveOptions {
+  UP,
+  DOWN
+}
+
 public class TextScript : MonoBehaviour{
 
   public TMP_Text question_text;
@@ -15,10 +20,11 @@ public class TextScript : MonoBehaviour{
   private int op;
   private int corret_answer;
 
-  void Start(){
+  void Awake(){
     changeQuestion();
   }
-  void changeQuestion(){
+
+  private void changeQuestion(){
     randomNumbers();
     switch (op){
       case 0: 
@@ -33,7 +39,7 @@ public class TextScript : MonoBehaviour{
     changeButtons();
   }
 
-  void randomNumbers(){
+  private void randomNumbers(){
     int n1 = Random.Range(0, 20);
     int n2 = Random.Range(0, 20);
     greater = n1 > n2 ? n1 : n2;
@@ -41,26 +47,37 @@ public class TextScript : MonoBehaviour{
     op = Random.Range(0, 2);
   }
 
-  void changeButtons() {
+  private void changeButtons() {
     int correct_bt = Random.Range(0, buttons.Length);
     for(int i = 0; i < buttons.Length; i++){
+      buttons[i].onClick.RemoveAllListeners();
       if (i == correct_bt){
         SetButtonText(buttons[i], corret_answer.ToString());
-        buttons[i].onClick.RemoveAllListeners();
-        buttons[i].onClick.AddListener(() => { player.moveUp(); changeQuestion();});
+        buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.UP));
       } else {
-        int temp;
-        do{
-          temp = Random.Range(0, 20) + Random.Range(0, 20);
-        } while (temp == corret_answer);
-        SetButtonText(buttons[i], temp.ToString());
-        buttons[i].onClick.RemoveAllListeners();
-        buttons[i].onClick.AddListener(() => { player.moveDown(); changeQuestion();});
+        SetButtonText(buttons[i], getRandomOption().ToString());
+        buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.DOWN));
       }
     }
   }
 
-  void SetButtonText(Button button, string text){
+  private int getRandomOption() {
+    int increment = Random.Range(1, 6);
+    int operation = Random.Range(0, 2);
+    return operation == 0 ? corret_answer + increment : corret_answer - increment;
+  }
+
+  private void movePlayer(MoveOptions move){
+    switch(move) {
+      case MoveOptions.UP: player.moveUp();
+        break;
+      case MoveOptions.DOWN: player.moveDown(); 
+        break;
+    }
+    changeQuestion();
+  }
+
+  private void SetButtonText(Button button, string text){
     TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
     if (buttonText != null){
       buttonText.text = text;

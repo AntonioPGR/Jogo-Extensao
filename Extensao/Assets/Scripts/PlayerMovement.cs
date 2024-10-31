@@ -2,26 +2,31 @@ using UnityEngine;
 
 public class Player : MonoBehaviour{
 
-  [SerializeField] private float speed;
-  [SerializeField] private float max_height;
-  [SerializeField] private float lifes;
+  public float speed;
+  public float max_height;
+  public float lifes;
+
+  private float min_height;
 
   void Awake(){
     transform.position = new Vector2(transform.position.x, max_height);
+    min_height = max_height - (lifes * speed);
   }
 
   public void moveDown() {
-    float new_y = transform.position.y - speed;
-    if(new_y >= max_height - (lifes * speed)){
-      transform.position = new Vector2(transform.position.x, new_y);
+    if(transform.position.y > min_height){
+      changeYPositionBy(-speed);
     }
   }
 
   public void moveUp() {
-    float new_y = transform.position.y + speed;
-    if(new_y <= max_height){
-      transform.position = new Vector2(transform.position.x, new_y);
+    if(transform.position.y < max_height) {
+      changeYPositionBy(speed);
     }
+  }
+
+  private void changeYPositionBy(float number) {
+    transform.position = new Vector2(transform.position.x, transform.position.y + number);
   }
 
 }

@@ -1122,7 +1122,7 @@ GameObject:
   - component: {fileID: 942059932}
   - component: {fileID: 942059931}
   m_Layer: 0
-  m_Name: QuestionDisplay
+  m_Name: QuestionSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   - {fileID: 951404093}
   player: {fileID: 740402854}
   max_value: 20
-  min_value: 0
+  min_value: 1
 --- !u!4 &942059932
 Transform:
   m_ObjectHideFlags: 0
