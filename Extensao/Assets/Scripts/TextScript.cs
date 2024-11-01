@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using TMPro;
 
 public enum MoveOptions {
@@ -19,6 +20,7 @@ public class TextScript : MonoBehaviour{
   private int minor;
   private int op;
   private int corret_answer;
+  // private List<int> buttons_numbers;
 
   void Awake(){
     changeQuestion();
@@ -40,8 +42,8 @@ public class TextScript : MonoBehaviour{
   }
 
   private void randomNumbers(){
-    int n1 = Random.Range(0, 20);
-    int n2 = Random.Range(0, 20);
+    int n1 = Random.Range(min_value, max_value);
+    int n2 = Random.Range(min_value, max_value);
     greater = n1 > n2 ? n1 : n2;
     minor = n1 < n2 ? n1 : n2;
     op = Random.Range(0, 2);
@@ -53,18 +55,24 @@ public class TextScript : MonoBehaviour{
       buttons[i].onClick.RemoveAllListeners();
       if (i == correct_bt){
         SetButtonText(buttons[i], corret_answer.ToString());
-        buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.UP));
-      } else {
-        SetButtonText(buttons[i], getRandomOption().ToString());
-        buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.DOWN));
-      }
+        buttons[i].onClick.AddListener(changeQuestion);
+        continue;
+      } 
+      SetButtonText(buttons[i], getRandomOption().ToString());
+      buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.DOWN));
     }
   }
 
   private int getRandomOption() {
+    int result = 0;
     int increment = Random.Range(1, 6);
     int operation = Random.Range(0, 2);
-    return operation == 0 ? corret_answer + increment : corret_answer - increment;
+
+    if(operation == 1) result = corret_answer + increment;
+    else result = corret_answer - increment;
+    if(result < 0) result *= -1;
+    
+    return result;
   }
 
   private void movePlayer(MoveOptions move){
