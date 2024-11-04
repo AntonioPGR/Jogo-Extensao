@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour{
 
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour{
   public void moveDown() {
     if(transform.position.y > min_height){
       changeYPositionBy(-speed);
+    } else {
+      SceneManager.LoadScene("GameOver");
     }
   }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 using TMPro;
+using System.Collections.Generic;
 
 public enum MoveOptions {
   UP,
@@ -11,6 +11,7 @@ public enum MoveOptions {
 public class TextScript : MonoBehaviour{
 
   public TMP_Text question_text;
+  public TMP_Text points_text;
   public Button[] buttons;
   public Player player;
   public int max_value;
@@ -20,9 +21,11 @@ public class TextScript : MonoBehaviour{
   private int minor;
   private int op;
   private int corret_answer;
-  // private List<int> buttons_numbers;
+  private List<int> buttons_value_list = new List<int>();
+  private int points;
 
   void Awake(){
+    points = 0;
     changeQuestion();
   }
 
@@ -50,28 +53,32 @@ public class TextScript : MonoBehaviour{
   }
 
   private void changeButtons() {
+    buttons_value_list.Clear();
+    buttons_value_list.Add(corret_answer);
     int correct_bt = Random.Range(0, buttons.Length);
     for(int i = 0; i < buttons.Length; i++){
       buttons[i].onClick.RemoveAllListeners();
       if (i == correct_bt){
         SetButtonText(buttons[i], corret_answer.ToString());
-        buttons[i].onClick.AddListener(changeQuestion);
+        buttons[i].onClick.AddListener(() => { increasePoints(); changeQuestion(); });
         continue;
-      } 
-      SetButtonText(buttons[i], getRandomOption().ToString());
+      }
+      string v = getRandomOption().ToString();
+      SetButtonText(buttons[i], v);
       buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.DOWN));
     }
   }
 
   private int getRandomOption() {
-    int result = 0;
-    int increment = Random.Range(1, 6);
-    int operation = Random.Range(0, 2);
-
-    if(operation == 1) result = corret_answer + increment;
-    else result = corret_answer - increment;
-    if(result < 0) result *= -1;
-    
+    int result;
+    do {
+      int increment = Random.Range(1, 6);
+      int operation = Random.Range(0, 2);
+      if(operation == 1) result = corret_answer + increment;
+      else result = corret_answer - increment;
+      if(result < 0) result *= -1;
+    } while(buttons_value_list.Contains(result));
+    buttons_value_list.Add(result);
     return result;
   }
 
@@ -90,6 +97,11 @@ public class TextScript : MonoBehaviour{
     if (buttonText != null){
       buttonText.text = text;
     }
+  }
+
+  private void increasePoints() {
+    points++;
+    points_text.text = points.ToString();
   }
 
 }
