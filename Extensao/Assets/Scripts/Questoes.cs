@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public enum MoveOptions {
   UP,
@@ -10,12 +11,12 @@ public enum MoveOptions {
 
 public class TextScript : MonoBehaviour{
 
-  public TMP_Text question_text;
-  public TMP_Text points_text;
-  public Button[] buttons;
-  public Player player;
-  public int max_value;
-  public int min_value;
+  [SerializeField] private TMP_Text question_text;
+  [SerializeField] private TMP_Text points_text;
+  [SerializeField] private Button[] buttons;
+  [SerializeField] private Player player;
+  [SerializeField] private int max_value;
+  [SerializeField] private int min_value;
 
   private int greater;
   private int minor;
@@ -26,6 +27,7 @@ public class TextScript : MonoBehaviour{
 
   void Awake(){
     points = 0;
+    points_text.text = points.ToString();
     changeQuestion();
   }
 
@@ -60,13 +62,23 @@ public class TextScript : MonoBehaviour{
       buttons[i].onClick.RemoveAllListeners();
       if (i == correct_bt){
         SetButtonText(buttons[i], corret_answer.ToString());
-        buttons[i].onClick.AddListener(() => { increasePoints(); changeQuestion(); });
+        buttons[i].onClick.AddListener(() => {answeredRight();});
         continue;
       }
       string v = getRandomOption().ToString();
       SetButtonText(buttons[i], v);
-      buttons[i].onClick.AddListener(() => movePlayer(MoveOptions.DOWN));
+      buttons[i].onClick.AddListener(answeredWrong);
     }
+  }
+
+  private void answeredRight() {
+    increasePoints(); 
+    changeQuestion();
+    movePlayer(MoveOptions.UP);
+  }
+
+  private void answeredWrong() {
+    movePlayer(MoveOptions.DOWN);
   }
 
   private int getRandomOption() {
@@ -102,6 +114,9 @@ public class TextScript : MonoBehaviour{
   private void increasePoints() {
     points++;
     points_text.text = points.ToString();
+    if(points >= 15) {
+      SceneManager.LoadScene("Win");
+    }
   }
 
 }

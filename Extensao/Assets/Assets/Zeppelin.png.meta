@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: a735f7f51019a8741913e793444220c9
+guid: 6f10013ddb7635f4295b0123a0b06458
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3718155028989263052
-    second: fundo_inicio_0
+      213: -923994315097029292
+    second: pixilart-sprite (2)_0
+  - first:
+      213: -229995298867008772
+    second: pixilart-sprite (2)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +103,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fundo_inicio_0
+      name: Zeppelin_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1280
-        height: 731
+        width: 231
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cccbcba9c4a899330800000000000000
-      internalID: 3718155028989263052
+      spriteID: c4aebcf0acac74147b48b4a3d3fa1fef
+      internalID: -2055358936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zeppelin_1
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 0
+        width: 231
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96b498b0bb146df45aa65e806ddb40a7
+      internalID: 681951937
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f904ea6785727574c8af9fde483ede5a
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fundo_inicio_0: 3718155028989263052
+      Zeppelin_0: -2055358936
+      Zeppelin_1: 681951937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
